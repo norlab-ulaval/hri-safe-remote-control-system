@@ -31,10 +31,10 @@
 /**
  * Includes
  */
-#include "VscProcess.h"
-#include "JoystickHandler.h"
-#include "VehicleInterface.h"
-#include "VehicleMessages.h"
+#include <VscProcess.h>
+#include <JoystickHandler.h>
+#include <VehicleInterface.h>
+#include <VehicleMessages.h>
 
 using namespace hri_safety_sense;
 
