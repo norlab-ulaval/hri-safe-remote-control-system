@@ -5,6 +5,8 @@ find_package(catkin REQUIRED
         roscpp
         std_msgs
         sensor_msgs
+        genmsg
+        message_runtime
 )
 
 include_directories(
@@ -12,11 +14,32 @@ include_directories(
         ${catkin_INCLUDE_DIRS}
 )
 
+add_service_files(
+        DIRECTORY srv
+        FILES
+        EmergencyStop.srv
+        KeyString.srv
+        KeyValue.srv
+)
+
+generate_messages(
+        DEPENDENCIES
+        std_msgs
+        sensor_msgs
+)
+
 add_library(${PROJECT_NAME}
         src/JoystickHandler.cpp
         src/SerialInterface.c
         src/VehicleInterface.c
         src/VscProcess.cpp
+)
+target_link_libraries(${PROJECT_NAME}
+        ${catkin_LIBRARIES}
+
+)
+add_dependencies(${PROJECT_NAME}
+        ${catkin_EXPORTED_TARGETS}
 )
 
 catkin_package(
@@ -26,6 +49,8 @@ catkin_package(
             roscpp
             std_msgs
             sensor_msgs
+            genmsg
+            message_runtime
 )
 
 add_executable(safe_remote_control src/main.cpp)
