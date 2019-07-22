@@ -24,7 +24,7 @@
 #include <string.h>
 #include <fcntl.h>
 
-#include "SerialInterface.h"
+#include <SerialInterface.h>
 
 /**
  * Open a serial port
