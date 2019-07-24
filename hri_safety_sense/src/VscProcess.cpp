@@ -43,7 +43,7 @@ VscProcess::VscProcess() :
 {
 	ros::NodeHandle nh("~");
 	std::string serialPort = "/dev/ttyACM0";
-	if(nh.getParam("serial", serialPort)) {
+	if(nh.getParam("port", serialPort)) {
 		ROS_INFO("Serial Port updated to:  %s",serialPort.c_str());
 	}
 
