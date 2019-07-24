@@ -51,5 +51,7 @@ This node has been tested with a point-to-point configuration with a wired EStop
 
 Further testing with multi-point configurations, and configurations with a SRC are needed.
 
+####Authorship
+In addition to [HRI/Fort Robotics](https://hriwiki.atlassian.net/wiki/spaces/DOC/overview) Robotics, this node was contributed to and maintained by [Jackson Stanhope](js@greenzie.co) with support from [Greenzie](www.greenzie.com).
 
     
