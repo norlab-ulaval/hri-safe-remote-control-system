@@ -1,62 +1,49 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(hri_safety_sense)
 
-find_package(catkin REQUIRED
-        roscpp
-        std_msgs
-        sensor_msgs
-        genmsg
-        message_runtime
-)
+# Find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(rosidl_default_runtime REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
 include_directories(
         include
-        ${catkin_INCLUDE_DIRS}
 )
 
-add_service_files(
-        DIRECTORY srv
-        FILES
-        EmergencyStop.srv
-        KeyString.srv
-        KeyValue.srv
+rosidl_generate_interfaces(${PROJECT_NAME}
+    "srv/EmergencyStop.srv"
+    "srv/KeyString.srv"
+    "srv/KeyValue.srv"
+    DEPENDENCIES std_msgs sensor_msgs
 )
 
-generate_messages(
-        DEPENDENCIES
-        std_msgs
-        sensor_msgs
-)
+#add_library(${PROJECT_NAME}
+#        src/JoystickHandler.cpp
+#        src/SerialInterface.c
+#        src/VehicleInterface.c
+#        src/VscProcess.cpp
+#)
 
-add_library(${PROJECT_NAME}
-        src/JoystickHandler.cpp
-        src/SerialInterface.c
-        src/VehicleInterface.c
-        src/VscProcess.cpp
-)
-target_link_libraries(${PROJECT_NAME}
-        ${catkin_LIBRARIES}
+#target_link_libraries(${PROJECT_NAME}
+#        rclcpp
+#)
 
-)
-add_dependencies(${PROJECT_NAME}
-        ${catkin_EXPORTED_TARGETS}
-)
+#add_executable(safe_remote_control src/main.cpp)
+#target_link_libraries(safe_remote_control
+#        ${PROJECT_NAME}
+#        rclcpp
+#)
 
-catkin_package(
-        INCLUDE_DIRS include
-        LIBRARIES hri_safety_sense
-        CATKIN_DEPENDS
-            roscpp
-            std_msgs
-            sensor_msgs
-            genmsg
-            message_runtime
-)
+# Install targets
+#install(TARGETS ${PROJECT_NAME} safe_remote_control
+#    DESTINATION lib/${PROJECT_NAME}
+#)
 
-add_executable(safe_remote_control src/main.cpp)
-target_link_libraries(safe_remote_control
-        ${PROJECT_NAME}
-        ${catkin_LIBRARIES}
-)
+# Package
+ament_package()
+
 
  
