@@ -212,3 +212,5 @@ AMENT_IGNORE
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,ros2,visualstudiocode,jetbrains
+
+.idea/*

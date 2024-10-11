@@ -19,6 +19,7 @@
  * Includes
  */
 #include <rclcpp/rclcpp.hpp>
+#include <sensor_msgs/msg/joy.hpp>
 
 #include "VehicleMessages.h"
 #include "MsgHandler.h"
@@ -40,8 +41,10 @@ namespace hri_safety_sense {
 		  int32_t getStickValue(JoystickType joystick);
 		  int32_t getButtonValue(uint8_t button);
 
-		  ros::NodeHandle 		rosNode;
-		  ros::Publisher 		rawLeftPub, rawRightPub;
+		  rclcpp::Node::SharedPtr rosNode;
+
+          rclcpp::Publisher<sensor_msgs::msg::Joy>::SharedPtr rawLeftPub;
+          rclcpp::Publisher<sensor_msgs::msg::Joy>::SharedPtr rawRightPub;
 	};
 
 }

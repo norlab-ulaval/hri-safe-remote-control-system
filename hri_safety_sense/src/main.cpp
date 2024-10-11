@@ -11,28 +11,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
-#include "ros/ros.h"
+#include "rclcpp/rclcpp.hpp"
 #include "VscProcess.h"
 
-hri_safety_sense::VscProcess *VSCInterface;
+std::shared_ptr<hri_safety_sense::VscProcess> VSCInterface;
 
 /**
  * VSC Vehicle Interface
  */
 int main(int argc, char **argv) {
-	ros::init(argc, argv, "VscProcess");
+    // Initialize ROS 2
+    rclcpp::init(argc, argv);
 
-	// Create vehicle interface
-	VSCInterface = new hri_safety_sense::VscProcess();
+    // Create a node
+    auto node = std::make_shared<rclcpp::Node>("VscProcessNode");
 
-	// Allow ROS to handle timing and callbacks
-	ros::spin();
+    // Create vehicle interface and pass the node to the class
+    VSCInterface = std::make_shared<hri_safety_sense::VscProcess>(node);
 
-	// Application ending
-	delete VSCInterface;
+    // Allow ROS 2 to handle timing and callbacks
+    rclcpp::spin(node);
 
-	return 0;
+    // Shutdown ROS 2
+    rclcpp::shutdown();
+
+    return 0;
 }
-
-
