@@ -19,9 +19,9 @@
  * ROS2 Includes
  */
 #include <rclcpp/rclcpp.hpp>
-#include "hri_safety_sense/EmergencyStop.h"
-#include "hri_safety_sense/KeyValue.h"
-#include "hri_safety_sense/KeyString.h"
+#include <hri_interfaces/srv/emergency_stop.hpp>
+#include <hri_interfaces/srv/key_value.hpp>
+#include <hri_interfaces/srv/key_string.hpp>
 
 /**
  * HRI_COMMON Includes
@@ -50,12 +50,15 @@ namespace hri_safety_sense {
 		  ~VscProcess();
 
 		  // Main loop
-		  void processOneLoop(const ros::TimerEvent&);
+		  void processOneLoop();
 
-		  // ROS Callback's
-		  bool EmergencyStop(EmergencyStop::Request &req, EmergencyStop::Response &res);
-		  bool KeyValue(KeyValue::Request &req, KeyValue::Response &res);
-		  bool KeyString(KeyString::Request &req, KeyString::Response &res);
+        bool EmergencyStop(const std::shared_ptr<hri_interfaces::srv::EmergencyStop::Request> &req,
+                           const std::shared_ptr<hri_interfaces::srv::EmergencyStop::Response> &res);
+        // ROS 2 Callback's
+		  bool KeyValue(const std::shared_ptr<hri_interfaces::srv::KeyValue::Request> &req,
+                        const std::shared_ptr<hri_interfaces::srv::KeyValue::Response> &res);
+        bool KeyString(const std::shared_ptr<hri_interfaces::srv::KeyString::Request> &req,
+                         const std::shared_ptr<hri_interfaces::srv::KeyString::Response> &res);
 
 	   private:
 
@@ -67,14 +70,19 @@ namespace hri_safety_sense {
 		  ErrorCounterType 		errorCounts;
 
 		  // ROS
-		  ros::NodeHandle 		rosNode;
-		  ros::Timer 	  		mainLoopTimer;
-		  ros::ServiceServer    estopServ, keyValueServ, keyStringServ;
-		  ros::Publisher		estopPub;
-		  ros::Time 			lastDataRx, lastTxTime;
+		  rclcpp::Node::SharedPtr rosNode;
+//		  ros::Timer 	  		mainLoopTimer;
+          rclcpp::TimerBase::SharedPtr mainLoopTimer;
+//		  ros::ServiceServer    estopServ, keyValueServ, keyStringServ;
+          rclcpp::Service<hri_interfaces::srv::EmergencyStop>::SharedPtr estopServ;
+          rclcpp::Service<hri_interfaces::srv::KeyValue>::SharedPtr keyValueServ;
+          rclcpp::Service<hri_interfaces::srv::KeyString>::SharedPtr keyStringServ;
+		  rclcpp::Publisher<std_msgs::msg::UInt32>::SharedPtr estopPub;
+		  rclcpp::Time 			lastDataRx, lastTxTime;
 
 		  // Message Handlers
-		  MsgHandler			*joystickHandler;
+          std::shared_ptr<hri_safety_sense::MsgHandler> joystickHandler;
+//		  MsgHandler			*joystickHandler;
 
 		  /* File descriptor for VSC Interface */
 		  VscInterfaceType		*vscInterface;

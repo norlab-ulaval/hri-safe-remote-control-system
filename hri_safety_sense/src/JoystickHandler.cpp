@@ -25,8 +25,9 @@ using namespace hri_safety_sense;
 
 JoystickHandler::JoystickHandler()
 {
+    this->rosNode = std::make_shared<rclcpp::Node>("hri_node_TODO");
 	// Joystick Pub
-	rawLeftPub = rosNode.advertise<sensor_msgs::Joy>("/joy", 10);
+	rawLeftPub = this->rosNode->create_publisher<sensor_msgs::msg::Joy>("/joy", 10);
 }
 
 JoystickHandler::~JoystickHandler()
@@ -68,10 +69,10 @@ uint32_t JoystickHandler::handleNewMsg(const VscMsgType &incomingMsg)
 		JoystickMsgType *joyMsg = (JoystickMsgType*)incomingMsg.msg.data;
 
 		// Broadcast Left Joystick
-		sensor_msgs::Joy sendLeftMsg;
+		sensor_msgs::msg::Joy sendLeftMsg;
 
-		sendLeftMsg.header.stamp = ros::Time::now();
-		sendLeftMsg.header.frame_id = "/srcs";
+		sendLeftMsg.header.stamp = this->rosNode->now();
+		sendLeftMsg.header.frame_id = "/srcs"; // TODO parametrize this
 
 		sendLeftMsg.axes.push_back((float)getStickValue(joyMsg->leftX));
 		sendLeftMsg.axes.push_back((float)getStickValue(joyMsg->leftY));
@@ -91,12 +92,12 @@ uint32_t JoystickHandler::handleNewMsg(const VscMsgType &incomingMsg)
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->rightSwitch.second));
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->rightSwitch.third));
 
-		rawLeftPub.publish(sendLeftMsg);
+		rawLeftPub->publish(sendLeftMsg);
 
 	} else {
 		retval = -1;
 
-		ROS_WARN("RECEIVED PTZ COMMANDS WITH INVALID MESSAGE SIZE! Expected: 0x%x, Actual: 0x%x",
+		RCLCPP_WARN(this->rosNode->get_logger(), "RECEIVED PTZ COMMANDS WITH INVALID MESSAGE SIZE! Expected: 0x%x, Actual: 0x%x",
 				(unsigned int)sizeof(JoystickMsgType), incomingMsg.msg.length);
 	}
 
