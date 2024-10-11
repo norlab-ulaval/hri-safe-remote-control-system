@@ -21,7 +21,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
-  <depend>hmi_interfaces</depend>
+  <depend>hri_interfaces</depend>
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
 

@@ -12,7 +12,7 @@ find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
-rosidl_generate_interfaces(${PROJECT_NAME}_interfaces
+rosidl_generate_interfaces(${PROJECT_NAME}
     "srv/EmergencyStop.srv"
     "srv/KeyString.srv"
     "srv/KeyValue.srv"

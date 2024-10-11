@@ -39,12 +39,26 @@ target_link_libraries(safe_remote_control
         ${PROJECT_NAME}
 )
 
+ament_target_dependencies(safe_remote_control
+    rclcpp
+    std_msgs
+    sensor_msgs
+    hri_interfaces
+)
+
 # Install targets
 install(TARGETS ${PROJECT_NAME} safe_remote_control
     DESTINATION lib/${PROJECT_NAME}
 )
 
-ament_export_dependencies(rosidl_default_runtime)
+ament_export_dependencies(
+    rosidl_default_runtime
+    rclcpp
+    std_msgs
+    sensor_msgs
+    hri_interfaces
+    rosidl_default_runtime
+)
 # Package
 ament_package()
 
