@@ -13,10 +13,10 @@
  */
 
 /**
- * ROS Includes
+ * ROS2 Includes
  */
-#include "ros/ros.h"
-#include "sensor_msgs/Joy.h"
+#include <rclcpp/rclcpp.hpp>
+#include <sensor_msgs/msg/joy.hpp>
 
 #include <VehicleMessages.h>
 #include <JoystickHandler.h>

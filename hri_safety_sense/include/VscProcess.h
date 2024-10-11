@@ -16,9 +16,9 @@
 #define __VSC_PROCESS_INCLUDED__
 
 /**
- * ROS Includes
+ * ROS2 Includes
  */
-#include "ros/ros.h"
+#include <rclcpp/rclcpp.hpp>
 #include "hri_safety_sense/EmergencyStop.h"
 #include "hri_safety_sense/KeyValue.h"
 #include "hri_safety_sense/KeyString.h"

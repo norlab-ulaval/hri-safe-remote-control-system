@@ -11,25 +11,26 @@ find_package(rosidl_default_generators REQUIRED)
 
 include_directories(
         include
+        ${rclcpp_INCLUDE_DIRS}
 )
 
-rosidl_generate_interfaces(${PROJECT_NAME}
+rosidl_generate_interfaces(${PROJECT_NAME}_msgs
     "srv/EmergencyStop.srv"
     "srv/KeyString.srv"
     "srv/KeyValue.srv"
     DEPENDENCIES std_msgs sensor_msgs
 )
 
-#add_library(${PROJECT_NAME}
-#        src/JoystickHandler.cpp
-#        src/SerialInterface.c
-#        src/VehicleInterface.c
-#        src/VscProcess.cpp
-#)
+add_library(${PROJECT_NAME}
+        src/JoystickHandler.cpp
+        src/SerialInterface.c
+        src/VehicleInterface.c
+        src/VscProcess.cpp
+)
 
-#target_link_libraries(${PROJECT_NAME}
-#        rclcpp
-#)
+target_link_libraries(${PROJECT_NAME}
+        rclcpp
+)
 
 #add_executable(safe_remote_control src/main.cpp)
 #target_link_libraries(safe_remote_control

@@ -15,9 +15,9 @@
 /**
  * ROS Includes
  */
-#include "ros/ros.h"
-#include "sensor_msgs/Joy.h"
-#include "std_msgs/UInt32.h"
+#include "rclcpp/rclcpp.hpp"
+#include "sensor_msgs/msg/joy.hpp"
+#include "std_msgs/msg/u_int32.hpp"
 
 /**
  * System Includes
