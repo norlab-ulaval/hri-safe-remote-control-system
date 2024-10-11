@@ -21,7 +21,7 @@ if you have catkin tools installed. Install with: `sudo apt-get install python-c
 This package has an included launch file (located in hri_safety_sense/launch/) that can be used to launch
 the node. The command to use this file is
 ```bash
-roslaunch hri_safety_sense vsc_interface.launch safety_port:=${port} vsc_interface_enable:=${yN}
+roslaunch hri_safety_sense vsc_interface.launch.py safety_port:=${port} vsc_interface_enable:=${yN}
 ```
 
 There are two arguments listed in the launch file:

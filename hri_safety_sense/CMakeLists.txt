@@ -1,9 +1,12 @@
 cmake_minimum_required(VERSION 3.8)
 project(hri_safety_sense)
 
-if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+if(NOT CMAKE_CXX_STANDARD)
+    set(CMAKE_CXX_STANDARD 14)
+endif()
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-Wall -Wextra -Wpedantic)
-endif ()
+endif()
 
 # Find dependencies
 find_package(ament_cmake REQUIRED)
@@ -50,6 +53,14 @@ ament_target_dependencies(safe_remote_control
 install(TARGETS ${PROJECT_NAME} safe_remote_control
     DESTINATION lib/${PROJECT_NAME}
 )
+
+# Install launch and config files.
+install(DIRECTORY
+        launch
+        DESTINATION share/${PROJECT_NAME}/
+)
+
+
 
 ament_export_dependencies(
     rosidl_default_runtime
