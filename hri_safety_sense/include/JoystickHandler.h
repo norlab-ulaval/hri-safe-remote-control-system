@@ -31,7 +31,7 @@ namespace hri_safety_sense {
 	 */
 	class JoystickHandler : public MsgHandler {
 	   public:
-		  JoystickHandler();
+		  JoystickHandler(const std::shared_ptr<rclcpp::Node> &node);
 		  ~JoystickHandler();
 
 		  uint32_t handleNewMsg(const VscMsgType &incomingMsg);

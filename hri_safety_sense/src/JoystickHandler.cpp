@@ -23,9 +23,9 @@
 
 using namespace hri_safety_sense;
 
-JoystickHandler::JoystickHandler()
+JoystickHandler::JoystickHandler(const std::shared_ptr<rclcpp::Node> &node)
 {
-    this->rosNode = std::make_shared<rclcpp::Node>("hri_node_TODO");
+    this->rosNode = node;
 	// Joystick Pub
 	rawLeftPub = this->rosNode->create_publisher<sensor_msgs::msg::Joy>("/joy", 10);
 }

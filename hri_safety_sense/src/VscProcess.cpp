@@ -78,7 +78,7 @@ VscProcess::VscProcess(const std::shared_ptr<rclcpp::Node> &node) :
 	}
 
 	// Create Message Handlers
-	joystickHandler = std::make_shared<JoystickHandler>();
+	joystickHandler = std::make_shared<JoystickHandler>(node);
 
 	// EStop callback
     estopServ = rosNode->create_service<hri_interfaces::srv::EmergencyStop>(
