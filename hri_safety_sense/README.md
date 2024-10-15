@@ -1,7 +1,8 @@
-## HRI Safety Sense
+# HRI Safety Sense
+
 ### Installing the ROS Node
-This node is now compatible with ROS Melodic, and builds in catkin. It launches a wrapper node C Driver that 
-exposes a serial interface to the VSC. 
+This node is now compatible with ROS Melodic, and builds in catkin. It launches a wrapper node C Driver that
+exposes a serial interface to the VSC.
 
 Installation requires either this folder (named hri_safety_sense) or the cloned git repo "hri-safe-remote-control-system"
 to be in the 'src' directory of your ROS workspace.
@@ -10,7 +11,7 @@ Build the package with either
 
 ```bash
 catkin_make
-``` 
+```
 or
 ```bash
 catkin_build
@@ -32,7 +33,7 @@ Another method of launching the ROS node is by using the command:
 ```bash
 rosrun hri_safety_sense safe_remote_control
 ```
-Using the launch file is recommended, however, because it is setup to auto-restart the node should it die 
+Using the launch file is recommended, however, because it is setup to auto-restart the node should it die
 unexpectedly.
 
 ## ROS Topics:
@@ -40,10 +41,11 @@ Running this node exposes the following topics:
 * /safety/emergency_stop
 
 ## Updates to Build System
-As of July 2019, this node is updated to be compatible with catkin. 
 
-The functionality of this package is also 
-exported as a library that can be imported by other catkin packages in a ROS environment, enabling other nodes 
+As of July 2019, this node is updated to be compatible with catkin.
+
+The functionality of this package is also
+exported as a library that can be imported by other catkin packages in a ROS environment, enabling other nodes
 to talk to the VSC.
 
 ## Testing
@@ -51,7 +53,8 @@ This node has been tested with a point-to-point configuration with a wired EStop
 
 Further testing with multi-point configurations, and configurations with a SRC are needed.
 
-####Authorship
-In addition to [HRI/Fort Robotics](https://hriwiki.atlassian.net/wiki/spaces/DOC/overview) Robotics, this node was contributed to and maintained by [Jackson Stanhope](js@greenzie.co) with support from [Greenzie](www.greenzie.com).
+### Authorship
 
-    
+In addition to [HRI/Fort Robotics](https://hriwiki.atlassian.net/wiki/spaces/DOC/overview) Robotics, this node was contributed to and maintained by [Jackson Stanhope](js@greenzie.co) with support from [Greenzie](https://www.greenzie.com).
+
+
