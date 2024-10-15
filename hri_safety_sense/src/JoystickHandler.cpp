@@ -34,16 +34,17 @@ JoystickHandler::~JoystickHandler()
 {
 }
 
-int32_t JoystickHandler::getStickValue(JoystickType joystick)
+float JoystickHandler::getStickValue(JoystickType joystick)
 {
 	int32_t magnitude = (joystick.magnitude<<2) + joystick.mag_lsb;
 
+	float magnitude_f = magnitude / 1023.0; // TODO replace this constant with a parameter
 	if(joystick.neutral_status == STATUS_SET) {
 		return 0;
 	} else if(joystick.negative_status == STATUS_SET) {
-		return -1 * magnitude;
+		return -1 * magnitude_f;
 	} else if(joystick.positive_status == STATUS_SET) {
-		return magnitude;
+		return magnitude_f;
 	}
 
 	// Error case
@@ -74,18 +75,18 @@ uint32_t JoystickHandler::handleNewMsg(const VscMsgType &incomingMsg)
 		sendLeftMsg.header.stamp = this->rosNode->now();
 		sendLeftMsg.header.frame_id = "/srcs"; // TODO parametrize this
 
-		sendLeftMsg.axes.push_back((float)getStickValue(joyMsg->leftX));
-		sendLeftMsg.axes.push_back((float)getStickValue(joyMsg->leftY));
-		sendLeftMsg.axes.push_back((float)getStickValue(joyMsg->leftZ));
+		sendLeftMsg.axes.push_back(getStickValue(joyMsg->leftX));
+		sendLeftMsg.axes.push_back(getStickValue(joyMsg->leftY));
+		sendLeftMsg.axes.push_back(getStickValue(joyMsg->leftZ));
 
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->leftSwitch.home));
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->leftSwitch.first));
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->leftSwitch.second));
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->leftSwitch.third));
 
-		sendLeftMsg.axes.push_back((float)getStickValue(joyMsg->rightX));
-		sendLeftMsg.axes.push_back((float)getStickValue(joyMsg->rightY));
-		sendLeftMsg.axes.push_back((float)getStickValue(joyMsg->rightZ));
+		sendLeftMsg.axes.push_back(getStickValue(joyMsg->rightX));
+		sendLeftMsg.axes.push_back(getStickValue(joyMsg->rightY));
+		sendLeftMsg.axes.push_back(getStickValue(joyMsg->rightZ));
 
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->rightSwitch.home));
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->rightSwitch.first));
