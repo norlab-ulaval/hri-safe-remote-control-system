@@ -82,22 +82,22 @@ VscProcess::VscProcess(const std::shared_ptr<rclcpp::Node> &node) :
 
 	// EStop callback
     estopServ = rosNode->create_service<hri_interfaces::srv::EmergencyStop>(
-        "safety/service/send_emergency_stop",
+        "emergency_stop",
         std::bind(&VscProcess::EmergencyStop, this, std::placeholders::_1, std::placeholders::_2)
     );
 
     // KeyValue callbacks
     keyValueServ = rosNode->create_service<hri_interfaces::srv::KeyValue>(
-        "safety/service/key_value",
+        "key_value",
         std::bind(&VscProcess::KeyValue, this, std::placeholders::_1, std::placeholders::_2)
     );
     keyStringServ = rosNode->create_service<hri_interfaces::srv::KeyString>(
-        "safety/service/key_string",
+        "key_string",
         std::bind(&VscProcess::KeyString, this, std::placeholders::_1, std::placeholders::_2)
     );
 
 // Publish Emergency Stop Status
-estopPub = rosNode->create_publisher<std_msgs::msg::UInt32>("safety/emergency_stop", 10);
+estopPub = rosNode->create_publisher<std_msgs::msg::UInt32>("emergency_stop", 10);
 
 
 	// Main Loop Timer Callback
