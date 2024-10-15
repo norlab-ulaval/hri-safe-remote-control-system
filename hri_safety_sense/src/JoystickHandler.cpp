@@ -27,7 +27,7 @@ JoystickHandler::JoystickHandler(const std::shared_ptr<rclcpp::Node> &node)
 {
     this->rosNode = node;
 	// Joystick Pub
-	rawLeftPub = this->rosNode->create_publisher<sensor_msgs::msg::Joy>("/joy", 10);
+	rawLeftPub = this->rosNode->create_publisher<sensor_msgs::msg::Joy>("joy", 10);
 }
 
 JoystickHandler::~JoystickHandler()
