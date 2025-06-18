@@ -176,7 +176,7 @@ int VscProcess::handleHeartbeatMsg(VscMsgType& recvMsg)
 		estopPub->publish(estopValue);
 
 		if(msgPtr->EStopStatus > 0) {
-			RCLCPP_WARN(rosNode->get_logger(),"Received ESTOP from the vehicle!!! 0x%x",msgPtr->EStopStatus);
+			RCLCPP_WARN_ONCE(rosNode->get_logger(),"Received ESTOP from the vehicle!!! 0x%x",msgPtr->EStopStatus);
 		}
 
 	} else {
@@ -195,6 +195,7 @@ void VscProcess::readFromVehicle()
 	/* Read all messages */
 	while (vsc_read_next_msg(vscInterface, &recvMsg) > 0) {
 		/* Read next Vsc Message */
+		//RCLCPP_INFO(rosNode->get_logger(), "Receive Msg.  TYPE (0x%02X)",recvMsg.msg.msgType);
 		switch (recvMsg.msg.msgType) {
 		case MSG_VSC_HEARTBEAT:
 			if(handleHeartbeatMsg(recvMsg) == 0) {
@@ -219,6 +220,7 @@ void VscProcess::readFromVehicle()
 			break;
 		default:
 			errorCounts.invalidRxMsgCount++;
+			// RCLCPP_INFO(rosNode->get_logger(), "Receive Msg.  TYPE (0x%02X)",recvMsg.msg.msgType);
 			RCLCPP_ERROR(rosNode->get_logger(), "Receive Error.  Invalid MsgType (0x%02X)",recvMsg.msg.msgType);
 			break;
 		}
