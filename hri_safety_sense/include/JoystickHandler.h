@@ -38,7 +38,8 @@ namespace hri_safety_sense {
 
 	   private:
 
-		  float getStickValue(JoystickType joystick);
+		  float getStickValue(JoystickType joystick, bool reverse=false);
+		  float getTriggerValue(JoystickType trigger);
 		  int32_t getButtonValue(uint8_t button);
 
 		  rclcpp::Node::SharedPtr rosNode;

@@ -34,17 +34,34 @@ JoystickHandler::~JoystickHandler()
 {
 }
 
-float JoystickHandler::getStickValue(JoystickType joystick)
+float JoystickHandler::getStickValue(JoystickType joystick, bool reverse)
 {
 	int32_t magnitude = (joystick.magnitude<<2) + joystick.mag_lsb;
-
 	float magnitude_f = magnitude / 1023.0; // TODO replace this constant with a parameter
+	int8_t reverse_factor = reverse ? -1 : 1;
+	
 	if(joystick.neutral_status == STATUS_SET) {
 		return 0;
 	} else if(joystick.negative_status == STATUS_SET) {
-		return -1 * magnitude_f;
+		return -1 * magnitude_f * reverse_factor;
 	} else if(joystick.positive_status == STATUS_SET) {
-		return magnitude_f;
+		return magnitude_f * reverse_factor;
+	}
+
+	// Error case
+	return 0;
+}
+
+float JoystickHandler::getTriggerValue(JoystickType trigger)
+{
+	int32_t magnitude = (trigger.magnitude<<2) + trigger.mag_lsb;
+	float magnitude_f = magnitude / 1023.0; // TODO replace this constant with a parameter
+	
+	if(trigger.neutral_status == STATUS_SET) {
+		return 1;
+	} else if(trigger.negative_status == STATUS_SET ||
+			  trigger.positive_status == STATUS_SET) {
+		return 1 - (magnitude_f * 2);
 	}
 
 	// Error case
@@ -75,18 +92,18 @@ uint32_t JoystickHandler::handleNewMsg(const VscMsgType &incomingMsg)
 		sendLeftMsg.header.stamp = this->rosNode->now();
 		sendLeftMsg.header.frame_id = "/srcs"; // TODO parametrize this
 
-		sendLeftMsg.axes.push_back(getStickValue(joyMsg->leftX));
+		sendLeftMsg.axes.push_back(getStickValue(joyMsg->leftX, true));
 		sendLeftMsg.axes.push_back(getStickValue(joyMsg->leftY));
-		sendLeftMsg.axes.push_back(getStickValue(joyMsg->leftZ));
+		sendLeftMsg.axes.push_back(getTriggerValue(joyMsg->leftZ));
 
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->leftSwitch.home));
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->leftSwitch.first));
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->leftSwitch.second));
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->leftSwitch.third));
 
-		sendLeftMsg.axes.push_back(getStickValue(joyMsg->rightX));
+		sendLeftMsg.axes.push_back(getStickValue(joyMsg->rightX, true));
 		sendLeftMsg.axes.push_back(getStickValue(joyMsg->rightY));
-		sendLeftMsg.axes.push_back(getStickValue(joyMsg->rightZ));
+		sendLeftMsg.axes.push_back(getTriggerValue(joyMsg->rightZ));
 
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->rightSwitch.home));
 		sendLeftMsg.buttons.push_back(getButtonValue(joyMsg->rightSwitch.first));
