@@ -22,7 +22,7 @@
 #include <hri_interfaces/srv/emergency_stop.hpp>
 #include <hri_interfaces/srv/key_value.hpp>
 #include <hri_interfaces/srv/key_string.hpp>
-#include <std_msgs/msg/u_int32.hpp>
+#include <std_msgs/msg/bool.hpp>
 
 /**
  * HRI_COMMON Includes
@@ -78,7 +78,7 @@ namespace hri_safety_sense {
           rclcpp::Service<hri_interfaces::srv::EmergencyStop>::SharedPtr estopServ;
           rclcpp::Service<hri_interfaces::srv::KeyValue>::SharedPtr keyValueServ;
           rclcpp::Service<hri_interfaces::srv::KeyString>::SharedPtr keyStringServ;
-		  rclcpp::Publisher<std_msgs::msg::UInt32>::SharedPtr estopPub;
+		  rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr estopPub;
 		  rclcpp::Time 			lastDataRx, lastTxTime;
 
 		  // Message Handlers

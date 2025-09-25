@@ -96,8 +96,8 @@ VscProcess::VscProcess(const std::shared_ptr<rclcpp::Node> &node) :
         std::bind(&VscProcess::KeyString, this, std::placeholders::_1, std::placeholders::_2)
     );
 
-// Publish Emergency Stop Status
-estopPub = rosNode->create_publisher<std_msgs::msg::UInt32>("emergency_stop", 10);
+	// Publish Emergency Stop Status
+	estopPub = rosNode->create_publisher<std_msgs::msg::Bool>("emergency_stop", 10);
 
 
 	// Main Loop Timer Callback
@@ -171,8 +171,8 @@ int VscProcess::handleHeartbeatMsg(VscMsgType& recvMsg)
 		HeartbeatMsgType *msgPtr = (HeartbeatMsgType*)recvMsg.msg.data;
 
 		// Publish E-STOP Values
-		std_msgs::msg::UInt32 estopValue;
-		estopValue.data = msgPtr->EStopStatus;
+		std_msgs::msg::Bool estopValue;
+		estopValue.data = msgPtr->EStopStatus > 0 ? true : false;
 		estopPub->publish(estopValue);
 
 		if(msgPtr->EStopStatus > 0) {
